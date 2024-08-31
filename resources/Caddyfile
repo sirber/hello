@@ -1,0 +1,18 @@
+{
+   auto_https off
+
+	# Enable FrankenPHP
+	frankenphp
+}
+
+:80 {
+	# Enable compression (optional)
+	encode zstd br gzip
+
+	# Serve static files
+    root * /app/public
+    file_server
+
+    # Serve application
+    php_server
+}

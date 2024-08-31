@@ -1,0 +1,38 @@
+services:
+  php:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+    depends_on:
+      - db
+      - cache
+    ports:
+      - 80:80
+    volumes:
+      - ./:/app/:rw
+    environment:
+      APP_ENV: dev
+      DATABASE_URL: "mysql://symfony:symfony@db/symfony"
+      REDIS_URL: "redis://redis:6379"
+
+  db:
+    image: mariadb:11.5
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: symfony
+      MYSQL_USER: symfony
+      MYSQL_PASSWORD: symfony
+    volumes:
+      - mariadb_data:/var/lib/mysql
+
+  cache:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+volumes:
+  mariadb_data:
+  redis_data:
