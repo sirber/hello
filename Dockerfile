@@ -3,6 +3,10 @@ WORKDIR /app
 COPY resources/Caddyfile /etc/caddy/Caddyfile
 RUN set -eux; \
     install-php-extensions \
+    opcache \
+    redis \
+    pdo \
+    pdo_mysql \
     @composer \
     ;
 
@@ -11,6 +15,7 @@ RUN cp $PHP_INI_DIR/php.ini-development $PHP_INI_DIR/php.ini
 
 FROM base AS production
 RUN cp $PHP_INI_DIR/php.ini-production $PHP_INI_DIR/php.ini
+COPY resources/opcache.ini $PHP_INI_DIR/conf.d/opcache.ini
 COPY . .
 ENV COMPOSER_ALLOW_SUPERUSER=1
 RUN composer install --no-dev --no-progress

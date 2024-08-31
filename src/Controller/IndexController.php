@@ -9,6 +9,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
 
 #[AsController]
+#[Route("/")]
 final class IndexController
 {
     #[Route(path: "/", methods: ["GET"])]
